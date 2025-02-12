@@ -25,11 +25,14 @@ def load_file_paths(file_list_path):
 def merge_files(file_paths, output_path):
     """
     複数のファイルをマージし、1つの出力ファイルに書き込む。
+    各ファイルの内容の前に、ファイルのタイトルとしてヘッダーを挿入する。
 
     Parameters:
         file_paths (list): マージ対象のファイルパスのリスト
         output_path (str): 出力ファイルのパス
     """
+    separator = "=" * 79  # PEP8の最大幅（79文字）の区切り線
+
     try:
         with open(output_path, 'w', encoding='utf-8') as outfile:
             for path in file_paths:
@@ -43,6 +46,11 @@ def merge_files(file_paths, output_path):
                 for file in matched_files:
                     if os.path.isfile(file):
                         try:
+                            # ファイルタイトル（ヘッダー）の挿入
+                            outfile.write(separator + "\n")
+                            outfile.write(f"File: {file}\n")
+                            outfile.write(separator + "\n\n")
+
                             with open(file, 'r', encoding='utf-8') as infile:
                                 outfile.write(infile.read())
                                 outfile.write("\n")
