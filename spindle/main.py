@@ -1,23 +1,34 @@
-# spindle/main.py
-
 import os
 import glob
 import argparse
 
+
 def load_file_paths(file_list_path):
     """
-    指定されたファイルリストを読み込む
+    指定されたファイルリストを読み込む。
+
+    Parameters:
+        file_list_path (str): ファイルリストのパス
+
+    Returns:
+        list: ファイルパスのリスト
     """
     try:
         with open(file_list_path, 'r', encoding='utf-8') as file:
-            return [line.strip() for line in file if line.strip()]  # 空行を無視
+            # 空行は除外して読み込み
+            return [line.strip() for line in file if line.strip()]
     except Exception as e:
         print(f"Error loading file list: {e}")
         return []
 
+
 def merge_files(file_paths, output_path):
     """
-    ファイルをマージして出力する
+    複数のファイルをマージし、1つの出力ファイルに書き込む。
+
+    Parameters:
+        file_paths (list): マージ対象のファイルパスのリスト
+        output_path (str): 出力ファイルのパス
     """
     try:
         with open(output_path, 'w', encoding='utf-8') as outfile:
@@ -44,13 +55,23 @@ def merge_files(file_paths, output_path):
     except Exception as e:
         print(f"Error writing to {output_path}: {e}")
 
+
 def main():
     """
-    コマンドラインからの入力を処理
+    コマンドライン引数を解析し、指定されたファイルリストに基づいてファイルをマージする。
     """
-    parser = argparse.ArgumentParser(description="Merge files specified in a file list.")
-    parser.add_argument("file_list", help="Path to the file containing list of files to merge.")
-    parser.add_argument("-o", "--output", default="merged_output.txt", help="Output file path.")
+    parser = argparse.ArgumentParser(
+        description="ファイルリストに記載されたファイルをマージします。"
+    )
+    parser.add_argument(
+        "file_list",
+        help="マージ対象ファイルのパスが記載されたファイルのパス。"
+    )
+    parser.add_argument(
+        "-o", "--output",
+        default="merged_output.txt",
+        help="出力ファイルのパス。デフォルトは 'merged_output.txt'。"
+    )
     args = parser.parse_args()
 
     file_list_path = os.path.expanduser(args.file_list)
@@ -61,6 +82,7 @@ def main():
         merge_files(file_paths, output_path)
     else:
         print("No valid file paths found.")
+
 
 if __name__ == "__main__":
     main()
