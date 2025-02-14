@@ -3,6 +3,12 @@ import glob
 import argparse
 import sys
 
+try:
+    import pyperclip
+except ImportError:
+    print("Error: pyperclip モジュールが必要です。'pip install pyperclip' を実行してください。")
+    sys.exit(1)
+
 
 def load_file_paths(file_list_path):
     """
@@ -33,13 +39,15 @@ def load_file_paths(file_list_path):
 def merge_files(file_paths, output_path):
     """
     複数のファイルをマージし、1つの出力ファイルに書き込む。
-    各ファイルの内容の前に、ファイル名を含むヘッダーを挿入する。
+    各ファイルの内容の前に、ファイル名を含むヘッダーを挿入し、
+    さらに最終結果をクリップボードへコピーする。
 
     Parameters:
         file_paths (list): マージ対象のファイルパスのリスト
         output_path (str): 出力ファイルのパス
     """
     separator = "=" * 79  # 区切り線（79文字）
+    merged_content = ""   # クリップボードへコピーするために全内容を保持
     try:
         with open(output_path, 'w', encoding='utf-8') as outfile:
             for path in file_paths:
@@ -55,20 +63,26 @@ def merge_files(file_paths, output_path):
                 for file in matched_files:
                     if os.path.isfile(file):
                         try:
-                            # ヘッダーの出力
-                            outfile.write(separator + "\n")
-                            outfile.write(f"File: {file}\n")
-                            outfile.write(separator + "\n\n")
+                            header = separator + "\n" + f"File: {file}\n" + separator + "\n\n"
+                            outfile.write(header)
+                            merged_content += header
 
                             with open(file, 'r', encoding='utf-8') as infile:
-                                outfile.write(infile.read())
+                                content = infile.read()
+                                outfile.write(content)
+                                merged_content += content
                                 outfile.write("\n")
+                                merged_content += "\n"
                             print(f"Merged: {file}")
                         except Exception as e:
                             print(f"Error reading {file}: {e}")
                     else:
                         print(f"Warning: Not a valid file: {file}")
         print(f"All files have been merged into {output_path}")
+
+        # マージした結果をクリップボードへコピー
+        pyperclip.copy(merged_content)
+        print("Merged content has been copied to clipboard.")
     except Exception as e:
         print(f"Error writing to {output_path}: {e}")
 
