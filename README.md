@@ -1,4 +1,3 @@
-
 # Spindle
 
 Spindle is a command-line tool to merge files with support for wildcard paths.
@@ -7,6 +6,7 @@ Spindle is a command-line tool to merge files with support for wildcard paths.
 
 - Merge multiple files into a single output file.
 - Supports wildcard patterns (e.g., `*.txt`) for flexible file selection.
+- **Automatically reads the list of files from `SpindleLists.txt` in the current directory.**
 - Easy-to-use command-line interface.
 
 ## Installation
@@ -35,18 +35,21 @@ After installation, use the `spindle` command in your terminal.
 
 ### Basic Usage
 
+Simply run:
+
 ```bash
-spindle <file_list_path> -o <output_file>
+spindle -o <output_file>
 ```
 
-- `<file_list_path>`: Path to the text file containing the list of files to merge.
+- The tool always reads `SpindleLists.txt` from the current directory.
 - `-o <output_file>`: (Optional) Path to the output file. Defaults to `merged_output.txt` if not specified.
 
 ### Example
 
-1. **Create a file list (`files.txt`)**:
+1. **Create a file list (`SpindleLists.txt`)**:
 
     ```txt
+    # List of files to merge
     ~/projects/example/file1.txt
     ~/projects/example/*.log
     ~/projects/example/subdir/*.txt
@@ -55,7 +58,7 @@ spindle <file_list_path> -o <output_file>
 2. **Run Spindle**:
 
     ```bash
-    spindle files.txt -o combined_output.txt
+    spindle -o combined_output.txt
     ```
 
     This command merges all specified files into `combined_output.txt`.
@@ -71,12 +74,9 @@ spindle --help
 Example output:
 
 ```
-usage: spindle [-h] [-o OUTPUT] file_list
+usage: spindle [-h] [-o OUTPUT]
 
-Merge files specified in a file list.
-
-positional arguments:
-  file_list            Path to the file containing list of files to merge.
+Spindle: Merges files listed in SpindleLists.txt.
 
 optional arguments:
   -h, --help           show this help message and exit
@@ -86,7 +86,7 @@ optional arguments:
 
 ## Contributing
 
-Contributions are welcome! Please open an issue or submit a pull request on [GitHub](https://github.com/ll3Ynxnj/spindle).
+Contributions are welcome! Please open an issue or submit a pull request on [GitHub](https://github.com/ll3ynxnj/spindle).
 
 ## License
 
