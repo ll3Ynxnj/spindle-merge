@@ -76,6 +76,9 @@ def merge_files(file_paths, output_path):
                             print(f"Merged: {file}")
                         except Exception as e:
                             print(f"Error reading {file}: {e}")
+                    elif os.path.isdir(file):
+                        # ディレクトリの場合は警告を出さず無視する
+                        continue
                     else:
                         print(f"Warning: Not a valid file: {file}")
         print(f"All files have been merged into {output_path}")
