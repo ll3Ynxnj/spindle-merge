@@ -45,7 +45,8 @@ def merge_files(file_paths, output_path):
             for path in file_paths:
                 # ユーザー展開 (~ など) を実施
                 expanded_path = os.path.expanduser(path)
-                matched_files = glob.glob(expanded_path)
+                # recursive=True を指定して再帰検索を有効にする
+                matched_files = glob.glob(expanded_path, recursive=True)
 
                 if not matched_files:
                     print(f"Warning: No files matched: {expanded_path}")
