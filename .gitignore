@@ -111,3 +111,7 @@ dmypy.json
 
 # Windows
 Thumbs.db
+
+# Spindle
+SpindleLists.txt
+spindle_output.txt
