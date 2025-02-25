@@ -1,27 +1,34 @@
 # Spindle
 
-Spindle is a command-line tool to merge files with support for wildcard paths.
+Spindle is a command-line tool that merges multiple text files into a single output, making it easier to input into ChatGPT and similar AI tools. It supports wildcard patterns for flexible file selection and automatically reads a predefined file list from `SpindleLists.txt`.
 
 ## Features
 
-- Merge multiple files into a single output file.
-- Supports wildcard patterns (e.g., `*.txt`) for flexible file selection.
-- **Automatically reads the list of files from `SpindleLists.txt` in the current directory.**
-- Easy-to-use command-line interface.
+- **Merge multiple files**  
+  Combines multiple text files into one output file.
+
+- **Wildcard support**  
+  Selects target files using patterns such as `*.txt` or `*.py`.
+
+- **Automatic file list loading**  
+  Reads merge target file paths from `SpindleLists.txt` in the current directory.
+
+- **Simple command-line interface**  
+  Use the `-o` option to specify the output file; if omitted, the default is `spindle_output.txt`.
 
 ## Installation
 
-### From PyPI
+### Install from PyPI (Future Release)
 
-After publishing to PyPI, you can install Spindle using `pip`:
+Once released on PyPI, Spindle can be installed using:
 
 ```bash
 pip install spindle
 ```
 
-### From Source
+### Install from Source
 
-Clone the repository and install using `pip`:
+To install from the GitHub repository, run:
 
 ```bash
 git clone https://github.com/ll3ynxnj/spindle.git
@@ -31,63 +38,45 @@ pip install .
 
 ## Usage
 
-After installation, use the `spindle` command in your terminal.
+### Prepare the file list
 
-### Basic Usage
+Create a `SpindleLists.txt` file in the current directory and list the file paths or wildcard patterns for merging, for example:
 
-Simply run:
-
-```bash
-spindle -o <output_file>
+```txt
+# Example list of files to merge
+~/projects/example/file1.txt
+~/projects/example/*.log
+~/projects/example/subdir/*.txt
 ```
 
-- The tool always reads `SpindleLists.txt` from the current directory.
-- `-o <output_file>`: (Optional) Path to the output file. Defaults to `merged_output.txt` if not specified.
+### Execute the merge
 
-### Example
+Run the following command:
 
-1. **Create a file list (`SpindleLists.txt`)**:
+```bash
+spindle -o combined_output.txt
+```
 
-    ```txt
-    # List of files to merge
-    ~/projects/example/file1.txt
-    ~/projects/example/*.log
-    ~/projects/example/subdir/*.txt
-    ```
+This merges the specified files into `combined_output.txt`.
 
-2. **Run Spindle**:
+### Clipboard Output
 
-    ```bash
-    spindle -o combined_output.txt
-    ```
+The merged text is also copied to the clipboard for easy pasting into AI tools.
 
-    This command merges all specified files into `combined_output.txt`.
+### Check Help Options
 
-### Help
-
-For more options and usage information, use the `--help` flag:
+For additional options, use:
 
 ```bash
 spindle --help
 ```
 
-Example output:
+## Contributing & License
 
-```
-usage: spindle [-h] [-o OUTPUT]
+### Contributing
 
-Spindle: Merges files listed in SpindleLists.txt.
+Bug reports, feature requests, and pull requests are welcome on GitHub.
 
-optional arguments:
-  -h, --help           show this help message and exit
-  -o OUTPUT, --output OUTPUT
-                       Output file path (default: merged_output.txt)
-```
+### License
 
-## Contributing
-
-Contributions are welcome! Please open an issue or submit a pull request on [GitHub](https://github.com/ll3ynxnj/spindle).
-
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+This project is released under the MIT License. See the [LICENCE](./LICENCE) file for details.
