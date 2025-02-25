@@ -6,27 +6,27 @@ import sys
 try:
     import pyperclip
 except ImportError:
-    print("Error: pyperclip モジュールが必要です。'pip install pyperclip' を実行してください。")
+    print("Error: The pyperclip module is required. Please run 'pip install pyperclip'.")
     sys.exit(1)
 
 
 def load_file_paths(file_list_path):
     """
-    指定されたファイルリスト (SpindleLists.txt) を読み込む。
-    - 空行や '#' で始まるコメント行は無視する。
+    Read the specified file list (SpindleLists.txt).
+    - Ignore blank lines and comment lines starting with '#'.
 
     Parameters:
-        file_list_path (str): SpindleLists.txt のパス
+        file_list_path (str): Path to SpindleLists.txt
 
     Returns:
-        list: 有効なファイルパスのリスト
+        list: List of valid file paths
     """
     try:
         with open(file_list_path, 'r', encoding='utf-8') as file:
             paths = []
             for line in file:
                 stripped = line.strip()
-                # 空行またはコメント行はスキップ
+                # Skip blank lines or comment lines
                 if not stripped or stripped.startswith("#"):
                     continue
                 paths.append(stripped)
@@ -38,22 +38,22 @@ def load_file_paths(file_list_path):
 
 def merge_files(file_paths, output_path):
     """
-    複数のファイルをマージし、1つの出力ファイルに書き込む。
-    各ファイルの内容の前に、ファイル名を含むヘッダーを挿入し、
-    さらに最終結果をクリップボードへコピーする。
+    Merge multiple files into one output file.
+    Insert a header with the file name before the content of each file,
+    and copy the final result to the clipboard.
 
     Parameters:
-        file_paths (list): マージ対象のファイルパスのリスト
-        output_path (str): 出力ファイルのパス
+        file_paths (list): List of file paths to merge
+        output_path (str): Path to the output file
     """
-    separator = "=" * 79  # 区切り線（79文字）
-    merged_content = ""   # クリップボードへコピーするために全内容を保持
+    separator = "=" * 79  # Separator
+    merged_content = ""   # For copying to clipboard
     try:
         with open(output_path, 'w', encoding='utf-8') as outfile:
             for path in file_paths:
-                # ユーザー展開 (~ など) を実施
+                # Perform user expansion (~, etc.)
                 expanded_path = os.path.expanduser(path)
-                # recursive=True を指定して再帰検索を有効にする
+                # Enable recursive search by specifying recursive=True
                 matched_files = glob.glob(expanded_path, recursive=True)
 
                 if not matched_files:
@@ -77,13 +77,13 @@ def merge_files(file_paths, output_path):
                         except Exception as e:
                             print(f"Error reading {file}: {e}")
                     elif os.path.isdir(file):
-                        # ディレクトリの場合は警告を出さず無視する
+                        # Ignore directories without warning
                         continue
                     else:
                         print(f"Warning: Not a valid file: {file}")
         print(f"All files have been merged into {output_path}")
 
-        # マージした結果をクリップボードへコピー
+        # Copy the merged result to the clipboard
         pyperclip.copy(merged_content)
         print("Merged content has been copied to clipboard.")
     except Exception as e:
@@ -92,29 +92,29 @@ def merge_files(file_paths, output_path):
 
 def main():
     """
-    コマンドライン引数を解析し、実行ディレクトリに配置された
-    SpindleLists.txt を基にファイルをマージする。
+    Merge files based on SpindleLists.txt located in the execution directory.
     """
     parser = argparse.ArgumentParser(
-        description="Spindle: SpindleLists.txtに記載されたファイルをマージします。"
+        description="Spindle: Merge files listed in SpindleLists.txt."
     )
     parser.add_argument(
         "-o", "--output",
         default="spindle_output.txt",
-        help="出力ファイルのパス。デフォルトは 'spindle_output.txt'。"
+        help="Path to the output file. Default is 'spindle_output.txt'."
     )
     args = parser.parse_args()
 
     file_list_path = "SpindleLists.txt"
     if not os.path.exists(file_list_path):
-        print(f"Error: '{file_list_path}' が存在しません。")
+        # print(f"Error: '{file_list_path}' が存在しません。")
+        print(f"Error: '{file_list_path}' does not exist.")
         sys.exit(1)
 
     file_paths = load_file_paths(file_list_path)
     if file_paths:
         merge_files(file_paths, os.path.expanduser(args.output))
     else:
-        print("Error: 有効なファイルパスが見つかりません。")
+        print("Error: No valid file paths found.")
 
 
 if __name__ == "__main__":
