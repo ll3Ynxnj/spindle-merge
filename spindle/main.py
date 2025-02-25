@@ -100,8 +100,8 @@ def main():
     )
     parser.add_argument(
         "-o", "--output",
-        default="merged_output.txt",
-        help="出力ファイルのパス。デフォルトは 'merged_output.txt'。"
+        default="spindle_output.txt",
+        help="出力ファイルのパス。デフォルトは 'spindle_output.txt'。"
     )
     args = parser.parse_args()
 

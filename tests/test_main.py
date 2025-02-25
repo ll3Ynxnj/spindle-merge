@@ -11,7 +11,7 @@ class TestSpindle(unittest.TestCase):
         self.temp_dir = tempfile.TemporaryDirectory()
         self.file1 = os.path.join(self.temp_dir.name, "file1.txt")
         self.file2 = os.path.join(self.temp_dir.name, "file2.txt")
-        self.output_file = os.path.join(self.temp_dir.name, "merged_output.txt")
+        self.output_file = os.path.join(self.temp_dir.name, "spindle_output.txt")
         
         # テスト用ファイルを作成
         with open(self.file1, 'w', encoding='utf-8') as f:
