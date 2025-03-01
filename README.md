@@ -23,7 +23,7 @@ Spindle is a command-line tool that merges multiple text files into a single out
 Once released on PyPI, Spindle can be installed using:
 
 ```bash
-pip install spindle
+pip install spindle-merge
 ```
 
 ### Install from Source

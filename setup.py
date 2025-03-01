@@ -3,7 +3,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="spindle",
+    name="spindle-merge",
     version="1.0.1",
     description="A command-line tool for merging files with wildcard support.",
     long_description=open("README.md", encoding='utf-8').read(),
